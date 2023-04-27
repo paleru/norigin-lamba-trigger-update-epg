@@ -23,8 +23,8 @@ connectToDb((err) => {
                 if (error) {
                     console.log('Error 1: ', error)
                 } else {
-                    console.log(JSON.stringify(data))
-                    db.collection('Channel ' + channelId).insertMany(data)
+                    //console.log(JSON.stringify(data))
+                    db.collection('epg ' + channelId).insertMany(data)
                         .then(() => {
                             console.log('Data successfully inserted into MongoDB')
                         })
@@ -34,7 +34,9 @@ connectToDb((err) => {
                 }
             })
         } 
-        writeToDb(0, 1)
+        writeToDb(0, 0)
+        writeToDb(1, 0)
+        writeToDb(2, 0)
         
     } else {
         console.log('Error connecting to database:', err)

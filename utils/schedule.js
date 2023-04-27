@@ -10,13 +10,16 @@ const schedule = (day, channelId, callback) => {
         } else if (response.body.error) {
             callback('Unable to find any schedule for the given date', undefined)
         } else {
+            const timeZoneOffset = new Date().getTimezoneOffset() * 60000 // offset variable 
             const epgItems = response.body.epgs[channelId].epg_items
             const schedules = epgItems.map((item) => ({
                 title: item.title,
-                startTime: item.air_time,
-                endTime: item.end_time,
+                // use the offset variable to convert UTC to UTC +2
+                startTime: new Date(new Date(item.air_time).getTime() - timeZoneOffset),
+                endTime: new Date(new Date(item.end_time).getTime() - timeZoneOffset),
                 channelId: item.channel_id
             }))
+            console.log(schedules)
             callback(undefined, schedules)
         }
     })
